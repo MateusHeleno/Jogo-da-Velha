@@ -121,3 +121,23 @@ int vitoria(char tabuleiro[MAX][MAX]) {
 
     return 0;
 }
+int validacao(int y,int tabuleiroFixo[MAX][MAX])
+{
+    if( y <= 9 && y > 0){
+        int indice = 1;
+        for(int i = 0; i < MAX; i++){
+            for (int j = 0; j < MAX; j++){
+                if( y == indice){ 
+                        if (tabuleiroFixo[i][j] == indice)
+                            return 1;
+                        else 
+                            return 0;
+                }
+                indice++;
+            }   
+        }
+    }    
+    else 
+        return 0;
+    return 0;
+}
