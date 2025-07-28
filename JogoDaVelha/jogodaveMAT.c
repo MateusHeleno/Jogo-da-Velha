@@ -7,10 +7,11 @@
 
 void limpar_buffer();//limpa o buffer
 void mapa(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX]);//Imprime o mapa
-void modoAmigos(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y,int *vitX,int *vitO,int *empate); // Modo que permite jogar contra amigos
 int vitoria(char tabuleiroFixo[MAX][MAX]);//Confere se teve vitória
+int validacao(int y,char tabuleiroFixo[MAX][MAX]);
 void trocaX(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y);//coloca o x
 void trocaO(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y);//coloca o 0
+void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y,int *vitX,int *vitO,int *empate); // Modo que permite jogar contra amigos
 
 int main(){
     srand(time(NULL));
@@ -190,7 +191,7 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
     }
     printf("\n");
     
-    trocaX(tabuleiroFixo,tabuleiroMovel,y)
+    trocaX(tabuleiroFixo,tabuleiroMovel,y);
     mapa(tabuleiroFixo, tabuleiroMovel);
     for(int i = 1; i<= 4;i++)
     {  
@@ -204,8 +205,8 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         }
         printf("\n");
 
-        void trocaO(tabuleiroFixo,tabuleiroMovel,y)
-        void mapa(tabuleiroFixo, tabuleiroMovel);
+        trocaO(tabuleiroFixo,tabuleiroMovel,y);
+        mapa(tabuleiroFixo, tabuleiroMovel);
 
         if(vitoria(tabuleiroMovel))
         {   
@@ -225,7 +226,7 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         }
         printf("\n");
                 
-        trocaX(tabuleiroFixo,tabuleiroMovel,y)
+        trocaX(tabuleiroFixo,tabuleiroMovel,y);
         mapa(tabuleiroFixo, tabuleiroMovel);
         if(vitoria(tabuleiroMovel))
         {   
