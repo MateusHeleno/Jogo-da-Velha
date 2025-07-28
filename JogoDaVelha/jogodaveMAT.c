@@ -178,11 +178,11 @@ void trocaO(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y){
 }
 
 void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y,int *vitX,int *vitO,int *empate){
-    mapa(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9);
+    mapa(tabuleiroFixo, tabuleiroMovel);
             
     printf("\nEscolha um número: ");
     scanf("%d",&y);
-    while(validacao(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,y) != 1 )
+    while(!validacao(y, tabuleiroFixo)) // se difrente de um jogada nao existe,entrar em loop
     {  
         printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
         printf("\nEscolha um número: ");
@@ -190,14 +190,13 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
     }
     printf("\n");
     
-    trocaX(x1,x2,x3,x4,x5,x6,x7,x8,x9,y1,y2,y3,y4,y5,y6,y7,y8,y9,y);
-    mapa(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9);
-
+    trocaX(tabuleiroFixo,tabuleiroMovel,y)
+    mapa(tabuleiroFixo, tabuleiroMovel);
     for(int i = 1; i<= 4;i++)
     {  
         printf("\nEscolha um número: ");
         scanf("%d",&y);
-        while(validacao(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,y) != 1 )
+        while(!validacao(y, tabuleiroFixo))
         {  
             printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
             printf("\nEscolha um número: ");
@@ -205,10 +204,10 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         }
         printf("\n");
 
-        trocaO(x1,x2,x3,x4,x5,x6,x7,x8,x9,y1,y2,y3,y4,y5,y6,y7,y8,y9,y);
-        mapa(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9);
+        void trocaO(tabuleiroFixo,tabuleiroMovel,y)
+        void mapa(tabuleiroFixo, tabuleiroMovel);
 
-        if(vitoria(*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9) == 1)
+        if(vitoria(tabuleiroMovel))
         {   
             printf("\nO o(bolinha) ganhou!! \n");
             (*vitO)++;
@@ -218,7 +217,7 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         printf("\nEscolha um número: ");
         scanf("%d",&y);
                 
-        while(validacao(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,y) != 1 )
+        while(!validacao(y, tabuleiroFixo))
         {  
             printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
             printf("\nEscolha um número: ");
@@ -226,9 +225,9 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         }
         printf("\n");
                 
-        trocaX(x1,x2,x3,x4,x5,x6,x7,x8,x9,y1,y2,y3,y4,y5,y6,y7,y8,y9,y);
-        mapa(*x1,*x2,*x3,*x4,*x5,*x6,*x7,*x8,*x9,*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9);
-        if(vitoria(*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9) == 1)
+        trocaX(tabuleiroFixo,tabuleiroMovel,y)
+        mapa(tabuleiroFixo, tabuleiroMovel);
+        if(vitoria(tabuleiroMovel))
         {   
             printf("O x ganhou !! \n");
             (*vitX)++;
@@ -236,9 +235,8 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int y
         }
                     
     }   
-    if(vitoria(*y1,*y2,*y3,*y4,*y5,*y6,*y7,*y8,*y9) != 1){ 
+    if(!vitoria(tabuleiroMovel)){ 
         printf("\nO jogo deu velha !!\n");
         (*empate)++;
     }
-}
 }
