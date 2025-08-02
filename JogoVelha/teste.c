@@ -9,10 +9,12 @@ void limpar_buffer();                                                   // limpa
 void mapa(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX]); // Imprime o mapa
 void retiraN(char nome[]);                                              // Retira o \n do fgets
 int vitoria(char tabuleiroFixo[MAX][MAX]);                              // Confere se teve vitória
-int validacao(int y, char tabuleiroFixo[MAX][MAX]);
-void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y);                                        // coloca o x
-void trocaO(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y);                                        // coloca o 0
-void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y, int *vitX, int *vitO, int *empate,int escolha); // Modo que permite jogar contra amigos
+int validacao(char tabuleiroFixo[MAX][MAX],int y);
+void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y,char simbolo);                                        // coloca o x
+void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y, int *vitX, int *vitO, int *empate,int escolha,char simbolo); // Modo que permite jogar contra amigos
+void amigos(int *y);
+void botFacil(int *y);
+//botmedio(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y);
 void escolhaDoModo(int *y, int escolha);
 
 int main()
@@ -21,6 +23,7 @@ int main()
     int y = 0, escolha, jogadas = 0;
     int vitX = 0, vitO = 0, empate = 0;
     char decisao = 's';
+    char simbolo = 'x';
 
     char nome[30];
     printf("Qual o seu nome : ");
@@ -53,7 +56,7 @@ int main()
             tentativas++;
         } while (escolha > 3 || escolha < 1);
         
-        modoDeJogo(tabuleiroFixo,tabuleiroMovel,y,&vitX,&vitO,&empate,escolha);
+        modoDeJogo(tabuleiroFixo,tabuleiroMovel,y,&vitX,&vitO,&empate,escolha,simbolo);
 
         printf("Você deseja jogar novamente ?\nDigite s para jogar novamente ou outra coisa para sair: ");
         limpar_buffer();
@@ -102,6 +105,7 @@ void retiraN(char nome[]){
         nome[tam - 1] = '\0'; 
 }
 
+
 int vitoria(char tabuleiroMovel[MAX][MAX])
 {
     for (int i = 0; i < 3; i++)
@@ -135,7 +139,7 @@ int vitoria(char tabuleiroMovel[MAX][MAX])
     return 0;
 }
 
-int validacao(int y, char tabuleiroFixo[MAX][MAX])
+int validacao(char tabuleiroFixo[MAX][MAX],int y)
 {
     if (y <= 9 && y > 0)
     {
@@ -160,7 +164,7 @@ int validacao(int y, char tabuleiroFixo[MAX][MAX])
     return 0;
 }
 
-void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y)
+void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y,char simbolo)
 {
     if (y <= 9 && y > 0)
     {
@@ -172,7 +176,7 @@ void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y)
                 if (y == indice)
                 { //  quando ele fizer a escolha, vai mudar a casa respectiva
                     tabuleiroFixo[i][j] = '-';
-                    tabuleiroMovel[i][j] = 'x';
+                    tabuleiroMovel[i][j] = simbolo;
                 }
                 indice++;
             }
@@ -180,33 +184,13 @@ void trocaX(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y)
     }
 }
 
-void trocaO(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y)
-{
-    if (y <= 9 && y > 0)
-    {
-        int indice = 1;
-        for (int i = 0; i < MAX; i++)
-        {
-            for (int j = 0; j < MAX; j++)
-            {
-                if (y == indice)
-                { //  quando ele fizer a escolha, vai mudar a casa respectiva
-                    tabuleiroFixo[i][j] = '-';
-                    tabuleiroMovel[i][j] = 'o';
-                }
-                indice++;
-            }
-        }
-    }
-}
-
-void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y, int *vitX, int *vitO, int *empate,int escolha)
+void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y, int *vitX, int *vitO, int *empate,int escolha,char simbolo)
 {
     mapa(tabuleiroFixo, tabuleiroMovel);
 
     printf("\nEscolha um número: ");
     scanf("%d", &y);
-    while (!validacao(y, tabuleiroFixo)) // se difrente de um jogada nao existe,entrar em loop
+    while (!validacao(tabuleiroFixo,y)) // se difrente de um jogada nao existe,entrar em loop
     {
         printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
         printf("\nEscolha um número: ");
@@ -214,12 +198,13 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int
     }
     printf("\n");
 
-    trocaX(tabuleiroFixo, tabuleiroMovel, y);
+    simbolo = 'x';
+    trocaX(tabuleiroFixo, tabuleiroMovel, y,simbolo);
     mapa(tabuleiroFixo, tabuleiroMovel);
     for (int i = 1; i <= 4; i++)
     {
         escolhaDoModo(&y,escolha);
-        while (!validacao(y, tabuleiroFixo))
+        while (!validacao(tabuleiroFixo,y))
         {
             if(escolha == 1) 
                 printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
@@ -227,7 +212,8 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int
         }
         printf("\n");
 
-        trocaO(tabuleiroFixo, tabuleiroMovel, y);
+        simbolo = 'o';
+        trocaX(tabuleiroFixo, tabuleiroMovel, y,simbolo);
         mapa(tabuleiroFixo, tabuleiroMovel);
 
         if (vitoria(tabuleiroMovel))
@@ -240,7 +226,7 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int
         printf("\nEscolha um número: ");
         scanf("%d", &y);
 
-        while (!validacao(y, tabuleiroFixo))
+        while (!validacao(tabuleiroFixo,y))
         {
             printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
             printf("\nEscolha um número: ");
@@ -248,7 +234,8 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int
         }
         printf("\n");
 
-        trocaX(tabuleiroFixo, tabuleiroMovel, y);
+        simbolo = 'x';
+        trocaX(tabuleiroFixo, tabuleiroMovel, y,simbolo);
         mapa(tabuleiroFixo, tabuleiroMovel);
         if (vitoria(tabuleiroMovel))
         {
@@ -290,3 +277,8 @@ void escolhaDoModo(int *y, int escolha)
         break;
     }
 }
+
+/*
+void botMedio(){
+}
+*/
