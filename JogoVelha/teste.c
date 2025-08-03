@@ -14,8 +14,8 @@ void troca(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y,ch
 void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y, int *vitX, int *vitO, int *empate,int escolha,char simbolo); // Modo que permite jogar contra amigos
 void usuario(int *y);
 void botFacil(int *y);
-//botmedio(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int y);
-void escolhaDoModo(int *y, int escolha);
+void botMedio(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int *y);
+void escolhaDoModo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int *y, int escolha);
 
 int main()
 {
@@ -99,12 +99,12 @@ void limpar_buffer()
         ;
 }
 
-void retiraN(char nome[]){
+void retiraN(char nome[])
+{
     int tam = strlen(nome);
     if (nome[tam - 1] == '\n') // remove o \n do fgets
         nome[tam - 1] = '\0'; 
 }
-
 
 int vitoria(char tabuleiroMovel[MAX][MAX])
 {
@@ -201,12 +201,12 @@ void modoDeJogo(char tabuleiroFixo[MAX][MAX], char tabuleiroMovel[MAX][MAX], int
     mapa(tabuleiroFixo, tabuleiroMovel);
     for (int i = 1; i <= 4; i++)
     {
-        escolhaDoModo(&y,escolha);
+        escolhaDoModo(tabuleiroFixo,tabuleiroMovel,&y,escolha);
         while (!validacao(tabuleiroFixo,y))
         {
             if(escolha == 1) 
                 printf("Jogada inválida!! Essa casa não existe, ou já está ocupada !");
-            escolhaDoModo(&y,escolha);
+            escolhaDoModo(tabuleiroFixo,tabuleiroMovel,&y,escolha);
         }
         printf("\n");
 
@@ -258,7 +258,7 @@ void botFacil(int *y)
     *y = (rand() % 9) + 1;
 }
 
-void escolhaDoModo(int *y, int escolha)
+void escolhaDoModo(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int *y, int escolha)
 {
     switch (escolha)
     {
@@ -269,12 +269,91 @@ void escolhaDoModo(int *y, int escolha)
         botFacil(y);
         break;
     case 3:
-        //botMedio();
+        botMedio(tabuleiroFixo,tabuleiroMovel,y);
         break;
     }
 }
 
-/*
-void botMedio(){
+
+void botMedio(char tabuleiroFixo[MAX][MAX],char tabuleiroMovel[MAX][MAX],int *y) {
+    char letra[] = {'o','x'};
+    for (int l = 0;l < 2;l++){//na primeira iteração confere a vitoria, na segunda bloqueia
+        // Verificar linhas horizontais
+        for (int i = 0; i < MAX; i++) { // o for anda com com a linha, e os if consideram todos os casos
+            
+            if (tabuleiroMovel[i][0] == letra[l] && tabuleiroMovel[i][1] == letra[l]) {  
+                *y = (i * MAX) + 3;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+            else if (tabuleiroMovel[i][0] == letra[l] && tabuleiroMovel[i][2] == letra[l]) { 
+                *y = (i * MAX) + 2;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+            else if (tabuleiroMovel[i][1] == letra[l] && tabuleiroMovel[i][2] == letra[l]) { 
+                *y = (i * MAX) + 1;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+        }
+
+        // Verificar colunas verticais
+        for (int j = 0; j < MAX; j++) { // o for anda com a coluna, e os if consideram todos os casos
+            if (tabuleiroMovel[0][j] == letra[l] && tabuleiroMovel[1][j] == letra[l]) { 
+                *y = j + 7;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+            else if (tabuleiroMovel[0][j] == letra[l] && tabuleiroMovel[2][j] == letra[l]) { 
+                *y = j + 4;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+            else if (tabuleiroMovel[1][j] == letra[l] && tabuleiroMovel[2][j] == letra[l]) { 
+                *y = j + 1;
+                if(validacao(tabuleiroFixo,*y))
+                    return;
+            }
+        }
+
+        // Verificar diagonais para ganhar
+        
+        if (tabuleiroMovel[0][0] == letra[l] && tabuleiroMovel[1][1] == letra[l]) { 
+            *y = 9;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+        else if (tabuleiroMovel[0][0] == letra[l] && tabuleiroMovel[2][2] == letra[l]) { 
+            *y = 5;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+        else if (tabuleiroMovel[1][1] == letra[l] && tabuleiroMovel[2][2] == letra[l]) { 
+            *y = 1;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+
+        //anti diagonal
+        if (tabuleiroMovel[0][2] == letra[l] && tabuleiroMovel[1][1] == letra[l]) {
+            *y = 7;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+    else  if (tabuleiroMovel[0][2] == letra[l] && tabuleiroMovel[2][0] == letra[l]) { 
+            *y = 5;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+        else if (tabuleiroMovel[1][1] == letra[l] && tabuleiroMovel[2][0] == letra[l]) { 
+            *y = 3;
+            if(validacao(tabuleiroFixo,*y))
+                    return;
+        }
+    }
+    //se nao tiver uma jogada antes, o bot faz ela de maneira aleatoria
+    botFacil(y);
+
 }
-*/
+
