@@ -1,4 +1,4 @@
-<h1 align="center"> H'Links </h1>
+<h1 align="center"> Jogo Da Velha </h1>
 
 <p align="center">
 Programa promovido por Mateus Heleno para aprender mais sobre a lingaugem C. <br/>
