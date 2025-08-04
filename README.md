@@ -1,7 +1,7 @@
 <h1 align="center"> Jogo Da Velha </h1>
 
 <p align="center">
-Programa promovido por Mateus Heleno para aprender mais sobre a lingaugem C. <br/>
+Este programa foi desenvolvido por Mateus Heleno com o objetivo de aprofundar os conhecimentos na linguagem C. <br/>
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-O Jogo da Velha foi uma idéia para aprimorar mais os meus conhecimentos sobre a linguagem C.
+Este projeto, o Jogo da Velha, teve como principal objetivo aprimorar minhas habilidades e meu aprendizado na linguagem C.
 
 ---
 
